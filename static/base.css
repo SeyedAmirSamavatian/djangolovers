@@ -1,0 +1,18 @@
+.header{
+	background: #CFC8C8;
+	height:50px;
+	width: 80% !important;
+	margin:30px 0;
+	border-radius: 5px;
+}
+
+.bodyPage{
+	/*background: green;*/
+	width: 85% !important;
+	height: 80vh;
+	padding: 0 50px;
+}
+.bodyPage_left,.bodyPage_right{
+	height: 90%;
+	margin: 0 20px!important;
+}
