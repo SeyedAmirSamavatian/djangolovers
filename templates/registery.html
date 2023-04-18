@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	registery
+{% endblock title %}
+
+
+{% block Middle_Header %}
+	<h2>Django Lovers</h2>
+{% endblock Middle_Header %}
+
+
+{% block Left_Body %}
+	<div class="formAccounts">
+		<div class="formHeader d-flex justify-content-center align-items-center">
+		  فرم ثبت نام  
+		</div>
+		<div style="padding: 10px;direction: rtl;">
+			{% if messages %}
+				<div class="alert alert-danger" role="alert">
+					    <ul>
+					        {% for message in messages %}
+					            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+					        {% endfor %}
+					    </ul>
+	 			</div>
+			{% endif %}
+			<form action="" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+					<div id="Registery_form_input" class="d-flex flex-column justify-content-center align-items-center">
+					    {% for field in form %}
+					        <div  style="padding-bottom:2px; width: 100%;margin-right:20%;" >
+					            {{ field.label_tag }}<br>
+					            {{ field }}
+					        </div>
+					    {% endfor %}
+					</div>
+				<br>
+				<div class="d-flex justify-content-around">
+					<button type="submit" class="btn btn-primary">ثبت نام</button>
+					<a href="{% url 'welcome' %}">Login</a>	
+				</div>
+			</form>
+		</div>
+
+	</div>
+{% endblock Left_Body %}
+
+
+

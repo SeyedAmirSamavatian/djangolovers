@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path , include
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -8,7 +8,7 @@ from .views import welcome , base
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', welcome , name='welcome'),
-    path('base/', base , name='base'),  #movaghati
+    path('accounts/', include('accounts.urls')), 
 ] 
 
 if settings.DEBUG:
