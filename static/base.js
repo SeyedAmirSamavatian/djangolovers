@@ -8,3 +8,6 @@ if(Registery_form_input && inputList){
     }
 }
 
+
+
+

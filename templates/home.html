@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	Home
+{% endblock title %}
+
+{% block Left_Header %}  
+<div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
+	<div class="d-flex flex-row justify-content-center align-items-center">
+		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+	</div>
+	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
+		<ion-icon style='margin :10px; font-size:30px;color: blue;'name="home-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+	</div>
+</div>
+{% endblock Left_Header %}
+
+{% block Middle_Header %}
+	<h2>Django Lovers</h2>
+{% endblock Middle_Header %}
+
+{% block Right_Header %}
+<div class="d-flex flex-row justify-content-between align-items-center" style="width:100%;">
+	<input style="width:90%;" type="search" class="form-control" id="datatable-search-input">
+	<ion-icon style="font-size:30px; color: red;margin-left:10px;" name="log-out-outline"></ion-icon>
+</div>
+{% endblock Right_Header %}
+
+{% block Left_Body %}
+	<div class="formAccounts" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center" style="overflow: auto;">
+				{% for post in posts %}
+				<div class="card border-success mb-3" style="width:100%;">
+				  <div class="card-header bg-transparent border-success d-flex justify-content-between align-items-center">
+					<div class="dropdown">
+					  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: #000;background: #fff;">
+					   <ion-icon name="reorder-four-outline"></ion-icon>
+					  </button>
+					  <ul class="dropdown-menu" >
+					    <li><a class="dropdown-item" href="#">
+					    	<ion-icon style='margin-right:15px;' name="create-outline"></ion-icon> Edit
+					    </a></li>
+					    <li><a class="dropdown-item" style="color: red;" href="#">
+					    	<ion-icon style='color:red;margin-right:15px;' name="trash-sharp"></ion-icon>Delete
+					    </a></li>
+					  </ul>
+					</div>
+				
+				  	<h5>{{ user.first_name }}</h5>
+				  </div>
+				  <div class="card-body text-success" style="direction: rtl;">
+				    <h5 class="card-title">
+				    	{{ post.title }}
+				    </h5>
+				    <p class="card-text">
+				    	{{ post.content }}
+				    </p>
+				    <span class="card-title" style="font-size: 10px;direction:ltr;float: left;"> 
+				    	{{ post.date }}
+				    </span>
+				  </div>
+				  <div class="card-footer bg-transparent border-success d-flex justify-content-between align-items-center text-align-center">
+						<span class="d-flex flex-row">      
+							{% for like in post.likes.all|slice:":5" %}
+								<img src="{{ like.profile.image.url }}" alt="{{ like.profile.image }}" class="rounded-circle" style="width:30px;height: 30px;margin:0 -5px">
+							{% endfor %}
+							{% if post.likes.count > 4 %}
+							  <h5 style="margin-left: 15px;">...</h5>
+							{% endif %}
+      					</span>
+				  	<span class="d-flex flex-row">
+				  		<span class="badge text-bg-danger d-flex flex-row" style="font-size:15px">
+				  			<p>{{ post.likes.count }}</p>
+				  			<ion-icon style='color:#fff;font-size:30px' name="heart-outline"></ion-icon> 
+				  		</span>
+				  	</span> 
+				  </div>
+				</div>
+
+				{% endfor %}
+		</div>
+
+	</div>
+{% endblock Left_Body %}
+
+
+
