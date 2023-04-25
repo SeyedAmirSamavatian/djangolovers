@@ -1,17 +1,19 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth.models import User
-from .models import Post
+from .models import Post, PostComments
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.http import HttpRequest
 from .forms import PostForm
-
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 
 
 @login_required
 def home(request):
     user_id = request.user.id
     posts = Post.objects.filter(author_id=user_id)
+    # form = PostCommentForm(request.POST) #######################################
     return render(request, 'home.html', {'posts': posts})
 
 
@@ -64,5 +66,29 @@ def send_post(request):
     return render(request, 'send_post.html', {'form': form})
 
 
-def SendComment(request):
-    pass
+# @csrf_exempt
+def add_comment(request):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        post_id = request.POST.get('post_id')
+        author = request.user
+        post = Post.objects.get(id=post_id)
+        comment = PostComments(content=content, author=author, post=post)
+        comment.save()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})
+
+
+
+        
+# @csrf_exempt
+@login_required
+def delete_comment(request, comment_id):
+    print(comment_id)
+    comment = get_object_or_404(PostComments, id=comment_id)
+    if request.user == comment.author:
+        comment.delete()
+        return JsonResponse({'success': True})
+    else:
+        return JsonResponse({'success': False})

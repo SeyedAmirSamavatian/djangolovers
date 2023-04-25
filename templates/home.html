@@ -67,39 +67,19 @@
 				  </div>
 				  <div class="card-footer bg-transparent border-success d-flex justify-content-between align-items-center text-align-center">
 					<span id="image_Liked{{post.id}}" class="d-flex flex-row">
-						{% for like in post.likes.all|slice:":8" %}
+						{% for like in post.likes.all|slice:":5" %}
 							<img src="{{ like.profile.image.url }}" alt="{{ like.profile.image }}" class="rounded-circle" style="width:30px;height: 30px;margin:0 -5px">
 						{% endfor %}
-						{% if post.likes.count > 8 %}
+						{% if post.likes.count > 5 %}
 						  <h5 style="margin-left: 15px;">...</h5>
 						{% endif %}
   					</span>
-  					<span>
-  						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  								 نظر بده <ion-icon style="color: #fff;font-size:20px;" name="chatbox-ellipses-outline"></ion-icon>
-						</button>
-						  						<!-- Modal -->
-						<div class="modal fade" dir="rtl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h1 class="modal-title fs-5" id="exampleModalLabel">ارسال نظر</h1>
-						      </div>
-						      <form method="POST" class="form-control">
-							      <div class="modal-body">
-							        ...
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-							        <button type="button" class="btn btn-primary">ذخیره </button>
-							      </div>
-						      </form>
-						    </div>
-						  </div>
-						</div>
-						  						
-  					</span>
-				  	<span class="d-flex flex-row">
+  									<!-- collapse comments -->
+					  <button class="btn btn-primary flex-row justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{post.id}}" aria-expanded="false" aria-controls="collapse{{post.id}}">
+					   <span>({{ post.comments.all.count }})</span>
+					   <span>نظر بده</span>
+					  </button>
+  				  	<span class="d-flex flex-row">
 				  		<span onclick="likeDislike({{ post.id }})" class="like-button badge text-bg-danger d-flex flex-row" style="font-size:15px">
 				  			{% csrf_token %}
 				  			<p id="count{{post.id}}">{{ post.likes.count }}</p>
@@ -107,6 +87,29 @@
 				  		</span>
 				  	</span> 
 				  </div>
+				  					<!-- collapse comments -->
+					<div class="collapse" id="collapse{{post.id}}">
+					  <div class="card card-body">
+							<form id="comment-form{{ post.id }}" dir="rtl">
+							    {% csrf_token %}
+							    <textarea class="form-control" name="content"></textarea>
+							    <input class="form-control" type="hidden" name="post_id" value="{{ post.id }}">
+							    <input class="form-control" type="hidden" name="username" value="{{ user.first_name }}">
+							   <span class="btn btn-primary m-2" onclick="SendComment_AJAX({{post.id}})">send</span>
+							</form>
+						      <div id="comments{{ post.id }}" >
+								    {% for comment in post.comments.all %}
+								        <div id="commentBox{{comment.id}}" class="comment d-flex flex-row justify-content-between align-items-center">
+								            <div>
+								            	<small>{{ comment.author.first_name }}</small>
+								            	<p>{{ comment.content }}</p>
+								            </div>
+								        	<ion-icon onclick="DeleteComment({{comment.id}})" style='color:red; cursor: pointer;'; name="trash-outline"></ion-icon>
+								        </div><hr>
+								    {% endfor %}
+							  </div>
+					  </div>
+					</div>
 				</div>
 
 				{% endfor %}
@@ -114,6 +117,3 @@
 
 	</div>
 {% endblock Left_Body %}
-
-
-

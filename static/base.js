@@ -18,7 +18,7 @@ function likeDislike(post_id){
     const url = '/home/like-post/' + post_id + '/';
     const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const xhr = new XMLHttpRequest();
-    post_id = JSON.parse(post_id)
+    // post_id = JSON.parse(post_id)
     xhr.open('POST', url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.setRequestHeader('X-CSRFToken', csrf_token);
@@ -36,44 +36,57 @@ function likeDislike(post_id){
     xhr.send('post_id=' + post_id);
 } 
 
+function SendComment_AJAX(post_id){
+    const form = document.querySelector('#comment-form'+post_id);
+    const commentsSection = document.querySelector('#comments'+post_id);
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const formData = new FormData(form);
+    fetch('/home/add_comment/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            formData.forEach((item, index)=>{
+                console.log(index+ " " + item)
+
+            });
+                commentsSection.innerHTML += 
+                `<div id="commentBox${formData.get('comment')}" class="comment d-flex flex-row justify-content-between align-items-center">
+                    <div>
+                        <small>${formData.get('username')}</small>
+                        <p>${formData.get('content')}</p>
+                    </div>
+                    <ion-icon onclick="DeleteComment({{comment.id}})" style='color:red; cursor: pointer;'; name="trash-outline"></ion-icon>
+                </div><hr>`
+                ;
+            }
+        })
+} 
 
 
+function DeleteComment(comment_id){
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    console.log(csrftoken)
+        $.ajax({
+            url:  comment_id + '/delete/',
+            type: 'POST',
+            beforeSend: function(xhr , settings){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            data: {},
+            success: function(response) {
+                if (response.success) {
+                    $(`#commentBox${comment_id}` ).remove();
+                }
+            },
+            error: function() {
+                alert('An error occurred while deleting the comment.');
+            }
+        });
+} 
 
-
-
-
-// <button class="like-button" data-post-id="{{ post.id }}" data-liked="{{ user in post.likes.all }}">{{ post.likes.count }} Likes</button>
-
-// document.addEventListener("DOMContentLoaded", function() {
-//     const likeButtons = document.querySelectorAll('.like-button');
-//     console.log('object')
-//     likeButtons.forEach(button => {
-//         console.log('button')
-//         button.addEventListener('click', function(e) {
-//             // e.preventDefault();
-//             const post_id = this.getAttribute('data-post-id');
-//             console.log(post_id);
-//             let liked = JSON.parse(this.getAttribute('data-liked'));
-//             console.log(liked);
-//             const url = '/like-post/' + post_id + '/';
-//             console.log(url);
-//             const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-//             console.log(csrf_token);
-//             const xhr = new XMLHttpRequest();
-//             xhr.open('POST', url);
-//             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-//             xhr.setRequestHeader('X-CSRFToken', csrf_token);
-//             xhr.onload = function() {
-//                 if (xhr.status === 200) {
-//                     const data = JSON.parse(xhr.responseText);
-//                     if (data.success) {
-//                         liked = !liked;
-//                         button.setAttribute('data-liked', liked);
-//                         button.textContent = data.likes_count + ' Likes';
-//                     }
-//                 }
-//             };
-//             xhr.send('liked=' + liked);
-//         });
-//     });
-// });

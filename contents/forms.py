@@ -9,3 +9,4 @@ class PostForm(forms.ModelForm):
             'title': 'تیتر',
             'content': 'متن',
         }
+
