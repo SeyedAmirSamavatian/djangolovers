@@ -43,8 +43,8 @@
 					   <ion-icon name="reorder-four-outline"></ion-icon>
 					  </button>
 					  <ul class="dropdown-menu" >
-					    <li><a class="dropdown-item" href="#">
-					    	<ion-icon style='margin-right:15px;' name="create-outline"></ion-icon> Edit
+					    <li><a class="dropdown-item" href="{% url 'post_edit' post.id %}">
+					    	<ion-icon style='margin-right:15px;' name="create-outline"></ion-icon>Edit 
 					    </a></li>
 					    <li><a class="dropdown-item" style="color: red;" href="{% url  'delete_Post' post.id %}">
 					    	<ion-icon style='color:red;margin-right:15px;' name="trash-sharp"></ion-icon>Delete

@@ -92,3 +92,12 @@ def delete_comment(request, comment_id):
         return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False})
+
+
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = "post_edit.html"
+    success_url = reverse_lazy('home')

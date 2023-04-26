@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	new_post 
+{% endblock title %}
+{% block Left_Header %}  
+<div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
+	<div class="d-flex flex-row justify-content-center align-items-center">
+		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+	</div>
+	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
+		<ion-icon style='margin :10px; font-size:30px;color: blue;scale:1.2'name="home-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+	</div>
+</div>
+{% endblock Left_Header %}
+{% block Middle_Header %}
+	<h2>Django Lovers</h2>
+{% endblock Middle_Header %}
+{% block Right_Header %}
+<div class="d-flex flex-row justify-content-between align-items-center" style="width:100%;">
+	<input style="width:90%;" type="search" class="form-control" id="datatable-search-input">
+	<a href="{% url 'logout' %}"><ion-icon style="font-size:30px; color: red;margin-left:10px;" name="log-out-outline"></ion-icon></a>
+</div>
+{% endblock Right_Header %}
+
+{% block Left_Body %}
+	<div class="formAccounts" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center" style="overflow: auto;">
+			<form method="post" style="direction: rtl;width: 100%; font-family: vazir;" >
+			    {% csrf_token %}
+			    	<div id="Registery_form_input" class="d-flex flex-column justify-content-center align-items-center">
+					    {% for field in form %}
+					        <div  style="padding-bottom:2px; width: 100%;margin-right:20%;" >
+					            <br>{{ field.label_tag }}<br>
+					            {{ field }}<br>
+					        </div>
+					    {% endfor %}
+			    </div>
+			    <button type="submit" class="btn btn-primary"> ارسال </button>
+			</form>
+		</div>
+
+	</div>
+{% endblock Left_Body %}
+
+
+

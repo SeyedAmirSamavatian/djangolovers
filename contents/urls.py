@@ -1,6 +1,6 @@
 from django.urls import path , include
 
-from .views import home, deletePost, likeDislike, send_post, add_comment, delete_comment
+from .views import home, deletePost, likeDislike, send_post, add_comment, delete_comment, PostUpdateView
 
 urlpatterns = [
     path('', home , name='home'),
@@ -9,5 +9,6 @@ urlpatterns = [
     path('like-post/<int:post_id>/', likeDislike , name='like-post'),
     path('add_comment/', add_comment, name='add_comment'),
     path('<int:comment_id>/delete/', delete_comment, name='delete_comment'),
+    path('<int:pk>/edit/', PostUpdateView.as_view(), name='post_edit'),
 ] 
 
