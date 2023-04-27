@@ -52,8 +52,6 @@ function SendComment_AJAX(post_id){
     .then(data => {
         if (data.success) {
             formData.forEach((item, index)=>{
-                console.log(index+ " " + item)
-
             });
                 commentsSection.innerHTML += 
                 `<div id="commentBox${formData.get('comment')}" class="comment d-flex flex-row justify-content-between align-items-center">
@@ -71,7 +69,6 @@ function SendComment_AJAX(post_id){
 
 function DeleteComment(comment_id){
     const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-    console.log(csrftoken)
         $.ajax({
             url:  comment_id + '/delete/',
             type: 'POST',
@@ -90,3 +87,24 @@ function DeleteComment(comment_id){
         });
 } 
 
+
+
+function follow(){
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        $.ajax({
+            url:  window.location.href+"follow/",
+            type: 'POST',
+            beforeSend: function(xhr , settings){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            data: {},
+            success: function(response) {
+                if (response.success) {
+                    $('#follow_btn').html(response.follow);
+                }
+            },
+            error: function() {
+                alert('An error occurred while following.');
+            }
+        });
+}

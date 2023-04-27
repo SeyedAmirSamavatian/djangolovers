@@ -10,6 +10,7 @@ urlpatterns = [
     path('', welcome , name='welcome'),
     path('accounts/', include('accounts.urls')), 
     path('home/', include('contents.urls')), 
+    path('otheruser/', include('otheruser.urls')), 
 ] 
 
 if settings.DEBUG:

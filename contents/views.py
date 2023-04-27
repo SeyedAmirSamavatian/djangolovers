@@ -7,6 +7,9 @@ from django.http import HttpRequest
 from .forms import PostForm
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 @login_required
@@ -94,10 +97,11 @@ def delete_comment(request, comment_id):
         return JsonResponse({'success': False})
 
 
-from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin,UpdateView):
     model = Post
     fields = ['title', 'content']
     template_name = "post_edit.html"
     success_url = reverse_lazy('home')
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
