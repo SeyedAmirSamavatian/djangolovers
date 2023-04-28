@@ -119,7 +119,7 @@
 
 
         {% endif %}
-      	<button type="button" class="btn btn-info" style="color: #fff;">Message</button>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="color: #fff;"> پیام شخصی </button>
       </div>
       <p class="card-text">{{ profiles.user.email }}</p>
       <p class="card-text"> تعداد پست ها : {{ posts.count }}</p>
@@ -128,6 +128,28 @@
       <p class="card-text"><small class="text-body-secondary">{{lastLogin}}</small></p>
     </div>
   </div>
+  	  <!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header" dir="rtl">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">پیام شخصی</h1>
+	      </div>
+	      <form id="send-message-form" method="post" style="width: 100%;" >
+	      	{% csrf_token %}
+			    <input type="hidden" name="sender_id" value="{{ user.id }}">
+			    <input type="hidden" name="recipient_id" value="{{ profiles.user.id }}">
+			    <div class="d-flex flex-column justify-content-center align-items-center">
+			    	<textarea id="message_textarea" dir="rtl" style="width: 95%;" name="message"></textarea>
+			    </div>
+		      <div class="modal-footer">
+		      	<button id="close_modal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		        <button onclick="sendMessage({{ profiles.user.id }})" type="button" class="btn btn-primary"> ارسال پیام </button>
+		      </div>
+	      </form>
+	    </div>
+	  </div>
+	</div>
 
 {% endblock Right_Body %}
 

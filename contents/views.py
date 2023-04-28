@@ -88,7 +88,6 @@ def add_comment(request):
 # @csrf_exempt
 @login_required
 def delete_comment(request, comment_id):
-    print(comment_id)
     comment = get_object_or_404(PostComments, id=comment_id)
     if request.user == comment.author:
         comment.delete()

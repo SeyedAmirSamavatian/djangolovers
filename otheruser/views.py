@@ -2,7 +2,7 @@ from django.shortcuts import render
 from accounts.models import Profile
 from contents.models import Post
 from datetime import datetime, timezone
-
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .models import User, Follower
 
@@ -39,7 +39,7 @@ def otheruserProfile(request, pk):
 	return render(request, 'otheruser.html', {'profiles':profiles, 'posts':posts, 'lastLogin':lastLogin, 'Get_likes':num, 'users':users, 'following': following})
 
 
-from django.http import JsonResponse
+
 def follow_user(request, user_to_follow):
 	user_to_follow = get_object_or_404(User, id=user_to_follow)
 	if request.user != user_to_follow:

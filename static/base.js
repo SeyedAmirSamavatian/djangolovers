@@ -51,8 +51,6 @@ function SendComment_AJAX(post_id){
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            formData.forEach((item, index)=>{
-            });
                 commentsSection.innerHTML += 
                 `<div id="commentBox${formData.get('comment')}" class="comment d-flex flex-row justify-content-between align-items-center">
                     <div>
@@ -107,4 +105,26 @@ function follow(){
                 alert('An error occurred while following.');
             }
         });
+}
+
+function sendMessage(user_id){
+    const form = document.querySelector('#send-message-form');
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const formData = new FormData(form);
+    fetch(`/chat/${user_id}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            $('#message_textarea').val('');
+            alert(data.alert)
+            let close = $('#close_modal').click() 
+            }
+        })
+
 }
