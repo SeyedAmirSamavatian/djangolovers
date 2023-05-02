@@ -49,7 +49,7 @@
 					  			<p style="font-size:10px; float: left;  direction: ltr">{{chat.timestamp}}</p>
 					  		</div>
 					  		<div>
-					  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+					  			<ion-icon onclick='deleteChat({{chat.id}})' name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
 					  		</div>
 					  	</div>
 				  	{% elif chat.recipient.id == user.id %}
@@ -63,7 +63,7 @@
 					  			<p style="font-size:10px; float: right;direction: ltr">{{chat.timestamp}}</p>
 					  		</div>
 					  		<div>
-					  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+					  			<ion-icon onclick='deleteChat({{chat.id}})' name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
 					  		</div>
 					  	</div>
 				  	{% endif %}
@@ -148,7 +148,7 @@
 							  			<p style="font-size:10px; float: left;  direction: ltr">${dataChat[i]['timestamp']}</p>
 							  		</div>
 							  		<div>
-							  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+							  			<ion-icon onclick='deleteChat(${dataChat[i]['id']})' name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
 							  		</div>
 							  	</div>
 			    				 `;
@@ -167,7 +167,7 @@
 							  			<p style="font-size:10px; float: right;direction: ltr">${dataChat[i]['timestamp']}</p>
 							  		</div>
 							  		<div>
-							  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+							  			<ion-icon onclick='deleteChat(${dataChat[i]['id']})' name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
 							  		</div>
 							  	</div>
 			    				`;

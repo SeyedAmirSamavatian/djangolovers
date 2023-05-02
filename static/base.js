@@ -150,3 +150,23 @@ function send_chat(){
 }
 
 
+function deleteChat(id){
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        $.ajax({
+            url: '/chat/delete/'+ id+'/' ,
+            type: 'POST',
+            beforeSend: function(xhr , settings){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            data: {},
+            success: function(response) {
+                if (response.success) {
+                    alert("پیام مورد نظر حذف شد");
+                }
+            },
+            error: function() {
+                alert('حذف پیام با مشکل روبرو شد! دوباره امتحان کنید');
+            }
+        });
+} 
+

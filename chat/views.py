@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from .models import Message, ChatBox 
 from django.db.models import Q
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def new_message(request,pk):
@@ -60,8 +62,7 @@ def chat_send(request):
 		return JsonResponse({'success': False})	
 
 
-import json
-from django.views.decorators.csrf import csrf_exempt
+
 @login_required
 # @csrf_exempt
 def chat_update(request, recipient_id):
@@ -83,5 +84,17 @@ def chat_update(request, recipient_id):
 		for chat in chats_list:
 			dataChat.append(chat)
 		return JsonResponse({'success': True,'first_name_sender':first_name_sender,'first_name_recipient':first_name_recipient, 'img_recipient' : img_recipient, 'img_sender':img_sender, 'dataChat':dataChat})
+	else:
+		return JsonResponse({'success': False})	
+
+
+# @csrf_exempt
+@login_required
+def delete_chat(request, id):
+	chat_del  = ChatBox.objects.get(id=id)
+	if ((chat_del.sender_id == request.user.id) | (chat_del.recipient_id == request.user.id)):
+		print(chat_del.sender_id)
+		chat_del.delete()
+		return JsonResponse({'success': True})
 	else:
 		return JsonResponse({'success': False})	
