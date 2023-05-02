@@ -128,3 +128,25 @@ function sendMessage(user_id){
         })
 
 }
+
+
+function send_chat(){
+    const form = document.querySelector('#sendChatText');
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const formData = new FormData(form);
+    fetch(`/chat/send/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrftoken
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            $('#sendChatInput').val('');
+            }
+        })
+}
+
+

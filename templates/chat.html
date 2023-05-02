@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	Django Lovers Chat 
+{% endblock title %}
+
+{% block Left_Header %}  
+<div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
+	<div class="d-flex flex-row justify-content-center align-items-center">
+		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+	</div>
+	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
+		<ion-icon style='margin :10px; font-size:30px;' name="home-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+	</div>
+</div>
+{% endblock Left_Header %}
+
+{% block Middle_Header %}
+	<h2>Django Lovers</h2>
+{% endblock Middle_Header %}
+
+{% block Right_Header %}
+<div class="d-flex flex-row justify-content-between align-items-center" style="width:100%;">
+	<input style="width:90%;" type="search" class="form-control" id="datatable-search-input">
+	<a href="{% url 'logout' %}"><ion-icon style="font-size:30px; color: red;margin-left:10px;" name="log-out-outline"></ion-icon></a>
+</div>
+{% endblock Right_Header %}
+
+{% block Left_Body %}
+	<div class="formAccounts d-flex flex-column" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center"  dir="rtl">
+			<div class="card text-bg-light mb-3" style="width:100%">
+			  <div id="chatsBox" class="card-body" style="overflow-y: auto;">
+				{% for chat in chats %}
+					{% if chat.sender.id == user.id %}
+					  	<div class="chatBoxTexts p-3 d-flex flex-row">
+					  		<div class="imgChatBox m-1">
+					  			<img class="rounded-circle" src="{{chat.sender.profile.image.url}}" alt="" style="width:40px;height: 40px;">
+					  		</div>
+					  		<div class="TextChat p-3 bg-primary rounded-5" style="color:#fff;font-size: 14px;min-width:50%" >
+					  			<p style="font-weight: bold;font-size:18px">{{chat.sender.first_name}}</p>
+					  			<p>{{chat.message}} </p>
+					  			<p style="font-size:10px; float: left;  direction: ltr">{{chat.timestamp}}</p>
+					  		</div>
+					  		<div>
+					  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+					  		</div>
+					  	</div>
+				  	{% elif chat.recipient.id == user.id %}
+					  	<div class="chatBoxTexts p-3 d-flex flex-row" dir="ltr" >
+					  		<div class="imgChatBox m-1">
+					  			<img class="rounded-circle" src="{{chat.sender.profile.image.url}}" alt="" style="width:40px;height: 40px;">
+					  		</div>
+					  		<div class="TextChat p-3 rounded-5" style="background: #455A64;color:#fff;font-size: 14px;min-width:50%">
+					  			<p style="font-weight: bold;font-size:18px">{{chat.sender.first_name}}</p>
+					  			<p>{{chat.message}}</p>
+					  			<p style="font-size:10px; float: right;direction: ltr">{{chat.timestamp}}</p>
+					  		</div>
+					  		<div>
+					  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+					  		</div>
+					  	</div>
+				  	{% endif %}
+			  	{% endfor %}
+			  </div>
+		        <div class="d-flex flex-row bg-primary" style="width:40%; padding:6px; position: fixed; bottom:2vh; left:20%;right:30% ;z-index: 2; border-radius:5px">
+		            <form id="sendChatText" method="POST" class="d-flex flex-row" dir="rtl" style="width: 100%;">
+		            	{% csrf_token %}
+		                <span onclick="send_chat()" class="btn btn-primary">Send</span>
+		                <input id="sendChatInput" class="form-control" type="text" name="chatText">
+		                <input id="sendChatsender_id" class="form-control" type="hidden" name="sender_id" value="{{sender_id}}">
+						<input id="sendChatrecipient_id" class="form-control" type="hidden" name="recipient_id" value="{{recipient_id}}">
+		            </form>
+		        </div>
+			</div>
+		</div>
+	</div>
+{% endblock Left_Body %}
+
+{% block Right_Body %}
+	<div class="formAccounts" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center" style="overflow-y: auto;" dir="rtl">
+			<div class="card text-bg-light mb-3" style="width:100%">
+			  <div class="card-header">کاربران</div>
+			  <div class="card-body rounded-5" style="padding: 0;">
+			  	<div class="btn-group-vertical" style="width: 100%;" role="group" aria-label="Vertical button group">
+				  	<ul class="list-group" style="width:100%;height:70vh;padding:0;margin:0;overflow-y:auto;">
+				  		{% for userChat in All_User_Chat %}
+				  		<a href="{% url 'chat' user.id userChat.id %}" style="text-decoration: none;">
+				  		 <li class="list-group-item d-flex justify-content-between align-items-center text-align-center">
+						    <img class="rounded-circle" src="{{ userChat.profile.image.url }}" alt="" style="width:40px;height: 40px;">
+						    {{ userChat.first_name }}
+						    <span class="badge bg-primary rounded-pill">14</span>
+						  </li>
+						 </a>
+				  		{% endfor %}
+					</ul>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		function scrollDone(){
+			var chatBox = $('#divScroll');
+				chatBox.scrollTop(chatBox.prop("scrollHeight"));
+		}
+
+	 	window.onload = scrollDone();
+		var chatBoxHTML = $('#divScroll').html();
+		function updateChat(){
+			const recipient_id = document.getElementById('sendChatrecipient_id').value;
+			const sender_id = document.getElementById('sendChatsender_id').value;
+
+			const form = document.querySelector('#sendChatText');
+		    const url = `/chat/update/` + recipient_id + '/';
+		    const csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+		    const xhr = new XMLHttpRequest();
+		    xhr.open('POST', url);
+		    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		    xhr.setRequestHeader('X-CSRFToken', csrf_token);
+		    
+		    xhr.onload = function() {
+		        if (xhr.status === 200) {
+		        	let chatBox = $('#chatsBox');
+
+			    		chatBox.html('');
+			    		let response = JSON.parse(xhr.responseText);
+			    		let dataChat = response.dataChat;
+			    		let element='';
+
+			    		for(let i=0; dataChat.length>i; i++){
+			    			if(dataChat[i]['sender_id'] == sender_id){
+			    				element = `
+			    				<div class="chatBoxTexts p-3 d-flex flex-row">
+							  		<div class="imgChatBox m-1">
+							  			<img class="rounded-circle" src="${response.img_sender}" alt="" style="width:40px;height: 40px;">
+							  		</div>
+							  		<div class="TextChat p-3 bg-primary rounded-5" style="color:#fff;font-size: 14px;min-width:50%" >
+							  			<p style="font-weight: bold;font-size:18px">${response.first_name_sender}</p>
+							  			<p>${dataChat[i]['message']} </p>
+							  			<p style="font-size:10px; float: left;  direction: ltr">${dataChat[i]['timestamp']}</p>
+							  		</div>
+							  		<div>
+							  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+							  		</div>
+							  	</div>
+			    				 `;
+
+			    				 chatBox.append(element)
+
+			    			}else if(dataChat[i]['sender_id'] == recipient_id){
+			    				element = ` 
+			    				<div class="chatBoxTexts p-3 d-flex flex-row" dir="ltr" >
+							  		<div class="imgChatBox m-1">
+							  			<img class="rounded-circle" src="${response.img_recipient}" alt="" style="width:40px;height: 40px;">
+							  		</div>
+							  		<div class="TextChat p-3 rounded-5" style="background: #455A64;color:#fff;font-size: 14px;min-width:50%">
+							  			<p style="font-weight: bold;font-size:18px">${response.first_name_recipient}</p>
+							  			<p>${dataChat[i]['message']}</p>
+							  			<p style="font-size:10px; float: right;direction: ltr">${dataChat[i]['timestamp']}</p>
+							  		</div>
+							  		<div>
+							  			<ion-icon name="trash-outline" style="cursor: pointer;color: red;margin:10px;"></ion-icon>
+							  		</div>
+							  	</div>
+			    				`;
+
+			    				chatBox.append(element)
+			    			}
+			    		}
+
+			    		if(chatBoxHTML != $('#divScroll').html()){
+			    			chatBoxHTML = document.getElementById('divScroll').innerHTML;
+		    				scrollDone();
+		    			}
+		        }
+		    }
+		    xhr.send('recipient_id=' + recipient_id);
+   
+		} 
+		setInterval(updateChat,5000)
+
+	</script>
+{% endblock Right_Body %}
