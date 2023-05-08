@@ -93,8 +93,47 @@ def chat_update(request, recipient_id):
 def delete_chat(request, id):
 	chat_del  = ChatBox.objects.get(id=id)
 	if ((chat_del.sender_id == request.user.id) | (chat_del.recipient_id == request.user.id)):
-		print(chat_del.sender_id)
 		chat_del.delete()
 		return JsonResponse({'success': True})
 	else:
 		return JsonResponse({'success': False})	
+
+
+from contents.models import Post
+@login_required
+def privateMessage(request):
+	user_id = request.user.id
+	user = User.objects.get(id = user_id)
+	senders = Message.objects.filter(recipient_id = request.user.id)
+	senders_user =User.objects.filter( 
+	    Q(sent_messages__recipient=request.user)
+		).distinct();
+
+	posts = Post.objects.filter(author_id=user_id)
+
+	return render(request, 'private_message.html', {'senders_user' : senders_user, 'posts':posts})
+
+
+
+@login_required
+def userPrivate_message(request, id):
+	user_id = request.user.id
+	sender_id = id
+	messages = Message.objects.filter(Q(recipient_id = user_id) & Q(sender_id = id)).order_by('-id')
+	senders_user =User.objects.filter( 
+    Q(sent_messages__recipient=request.user)
+	).distinct();
+
+	return render(request, 'private_message_user.html', {'senders_user' : senders_user, 'messages':messages})
+
+
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+@login_required
+def Del_Private_message(request, id, sender_id):
+	message  = get_object_or_404(Message, id=id)
+	if message.sender_id == request.user.id or message.recipient_id == request.user.id:
+		message.delete()
+		return redirect('userPrivate_message', id=sender_id)
+	else:
+		return HttpResponse("You don't have permission to delete this message")

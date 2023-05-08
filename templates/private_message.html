@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+	Django Lovers Private Message 
+{% endblock title %}
+
+{% block Left_Header %}  
+<div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
+	<div class="d-flex flex-row justify-content-center align-items-center">
+		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+	</div>
+	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
+		<ion-icon style='margin :10px; font-size:30px;' name="home-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
+		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+	</div>
+</div>
+{% endblock Left_Header %}
+
+{% block Middle_Header %}
+	<h2>Django Lovers</h2>
+{% endblock Middle_Header %}
+
+{% block Right_Header %}
+<div class="d-flex flex-row justify-content-between align-items-center" style="width:100%;">
+	<input style="width:90%;" type="search" class="form-control" id="datatable-search-input">
+	<a href="{% url 'logout' %}"><ion-icon style="font-size:30px; color: red;margin-left:10px;" name="log-out-outline"></ion-icon></a>
+</div>
+{% endblock Right_Header %}
+
+{% block Left_Body %}
+	<div class="formAccounts" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center" style="overflow: auto;">
+				{% for post in posts %}
+				<div class="card border-success mb-3" style="width:100%;">
+				  <div class="card-header bg-transparent border-success d-flex justify-content-between align-items-center">
+					<div class="dropdown">
+					  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"  style="color: #000;background: #fff;">
+					   <ion-icon name="reorder-four-outline"></ion-icon>
+					  </button>
+					  <ul class="dropdown-menu" >
+					    <li><a class="dropdown-item" href="{% url 'post_edit' post.id %}">
+					    	<ion-icon style='margin-right:15px;' name="create-outline"></ion-icon>Edit 
+					    </a></li>
+					    <li><a class="dropdown-item" style="color: red;" href="{% url  'delete_Post' post.id %}">
+					    	<ion-icon style='color:red;margin-right:15px;' name="trash-sharp"></ion-icon>Delete
+					    </a></li>
+					  </ul>
+					</div>
+				
+				  	<h5>{{ post.author.first_name }}</h5>
+				  </div>
+				  <div class="card-body text-success" style="direction: rtl;">
+				    <h5 class="card-title">
+				    	{{ post.title }}
+				    </h5>
+				    <p class="card-text">
+				    	{{ post.content }}
+				    </p>
+				    <span class="card-title" style="font-size: 10px;direction:ltr;float: left;"> 
+				    	{{ post.date }}
+				    </span>
+				  </div>
+				  <div class="card-footer bg-transparent border-success d-flex justify-content-between align-items-center text-align-center">
+					<span id="image_Liked{{post.id}}" class="d-flex flex-row">
+						{% for like in post.likes.all|slice:":5" %}
+							<img src="{{ like.profile.image.url }}" alt="{{ like.profile.image }}" class="rounded-circle" style="width:30px;height: 30px;margin:0 -5px">
+						{% endfor %}
+						{% if post.likes.count > 5 %}
+						  <h5 style="margin-left: 15px;">...</h5>
+						{% endif %}
+  					</span>
+  									<!-- collapse comments -->
+					  <button class="btn btn-primary flex-row justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{post.id}}" aria-expanded="false" aria-controls="collapse{{post.id}}">
+					   <span>({{ post.comments.all.count }})</span>
+					   <span>نظر بده</span>
+					  </button>
+  				  	<span class="d-flex flex-row">
+				  		<span onclick="likeDislike({{ post.id }})" class="like-button badge text-bg-danger d-flex flex-row" style="font-size:15px">
+				  			{% csrf_token %}
+				  			<p id="count{{post.id}}">{{ post.likes.count }}</p>
+				  			<ion-icon style='color:#fff;font-size:30px' name="heart-outline"></ion-icon> 
+				  		</span>
+				  	</span> 
+				  </div>
+				  					<!-- collapse comments -->
+					<div class="collapse" id="collapse{{post.id}}">
+					  <div class="card card-body">
+							<form id="comment-form{{ post.id }}" dir="rtl">
+							    {% csrf_token %}
+							    <textarea class="form-control" name="content"></textarea>
+							    <input class="form-control" type="hidden" name="post_id" value="{{ post.id }}">
+							    <input class="form-control" type="hidden" name="username" value="{{ user.first_name }}">
+							   <span class="btn btn-primary m-2" onclick="SendComment_AJAX({{post.id}})">send</span>
+							</form>
+						      <div id="comments{{ post.id }}" >
+								    {% for comment in post.comments.all %}
+								        <div id="commentBox{{comment.id}}" class="comment d-flex flex-row justify-content-between align-items-center">
+								            <div>
+								            	<small>{{ comment.author.first_name }}</small>
+								            	<p>{{ comment.content }}</p>
+								            </div>
+								        	<ion-icon onclick="DeleteComment({{comment.id}})" style='color:red; cursor: pointer;'; name="trash-outline"></ion-icon>
+								        </div><hr>
+								    {% endfor %}
+							  </div>
+					  </div>
+					</div>
+				</div>
+
+				{% endfor %}
+		</div>
+
+	</div>
+{% endblock Left_Body %}
+
+{% block Right_Body %}
+	<div class="formAccounts" style="background:none!important; ">
+		<div class="postsPart d-flex flex-column justify-content-center align-items-center" style="overflow-y: auto;" dir="rtl">
+			<div class="card text-bg-light mb-3" style="width:100%;">
+			  <div class="card-header">کاربران</div>
+			  <div class="card-body rounded-5" style="padding: 0;">
+			  	<div class="btn-group-vertical" style="width: 100%;" role="group" aria-label="Vertical button group">
+				  	<ul class="list-group" style="width:100%;height:70vh;padding:0;margin:0;overflow-y:auto;">
+				  		{% for userChat in senders_user %}
+				  		<a href="{% url 'userPrivate_message' userChat.id %}" style="text-decoration: none;">
+				  		 <li class="list-group-item d-flex justify-content-between align-items-center text-align-center">
+						    <img class="rounded-circle" src="{{ userChat.profile.image.url }}" alt="" style="width:40px;height: 40px;">
+						    {{ userChat.first_name }}
+						    <span class="badge bg-primary rounded-pill">14</span>
+						  </li>
+						 </a>
+				  		{% endfor %}
+					</ul>
+			  </div>
+			</div>
+		</div>
+	</div>
+{% endblock Right_Body %}
