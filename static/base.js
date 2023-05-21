@@ -1,4 +1,3 @@
-
 const Registery_form_input = document.getElementById('Registery_form_input');
 const inputList = Registery_form_input.getElementsByTagName('input');
 const textareaList  = Registery_form_input.getElementsByTagName('textarea');
@@ -12,6 +11,9 @@ if(Registery_form_input && inputList){
         textareaList[i].style.width = '80%';
     }
 }
+
+
+
 
 
 function likeDislike(post_id){
@@ -169,3 +171,5 @@ function deleteChat(id){
             }
         });
 } 
+
+

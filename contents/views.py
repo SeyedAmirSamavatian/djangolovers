@@ -104,3 +104,28 @@ class PostUpdateView(LoginRequiredMixin,UpdateView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(author=self.request.user)
+
+
+
+def all_post(request):
+    posts = Post.objects.all().order_by('-id')
+    return render(request, 'all_post.html', {'posts': posts})
+
+from django.db.models import Q
+def search(request):
+    data = []
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        search = request.POST.get('search')
+        q = User.objects.filter(Q(first_name__icontains = search) | Q(last_name__icontains = search))
+        if len(q) > 0 and len(search) > 0:
+            for pos in q:
+                item = {
+                    'pk': pos.pk,
+                    'first_name': pos.first_name,
+                    'last_name': pos.last_name,
+                    'img' : pos.profile.image.url, 
+                }
+                data.append(item)
+        return JsonResponse({'success': True, 'data' : data})
+    else:
+        return JsonResponse({'success': False})

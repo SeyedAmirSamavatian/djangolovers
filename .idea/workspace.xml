@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="04b4238d-d2c1-472e-bd21-38809b1c9e77" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/chat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/chat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/contents/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contents/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/contents/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangolovers.docx" beforeDir="false" afterPath="$PROJECT_DIR$/djangolovers.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/otheruser/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/otheruser/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/base.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/base.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/private_message_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/private_message_user.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2Q1sAho2mdMyYEACNLAgidKUW3B" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/wamp64/www/djangolovers-main"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="04b4238d-d2c1-472e-bd21-38809b1c9e77" name="Changes" comment="" />
+      <created>1684532284322</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684532284322</updated>
+    </task>
+    <servers />
+  </component>
+</project>
