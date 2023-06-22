@@ -12,6 +12,7 @@ urlpatterns = [
     path('home/', include('contents.urls')), 
     path('otheruser/', include('otheruser.urls')), 
     path('chat/', include('chat.urls')), 
+    path('onlines/', include('onlines.urls')), 
 ] 
 
 if settings.DEBUG:

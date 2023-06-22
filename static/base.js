@@ -70,7 +70,7 @@ function SendComment_AJAX(post_id){
 function DeleteComment(comment_id){
     const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
         $.ajax({
-            url:  comment_id + '/delete/',
+            url:  `${window.location.origin}/home/${comment_id}/delete/`,
             type: 'POST',
             beforeSend: function(xhr , settings){
                 xhr.setRequestHeader('X-CSRFToken', csrftoken);
@@ -113,7 +113,7 @@ function sendMessage(user_id){
     const form = document.querySelector('#send-message-form');
     const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const formData = new FormData(form);
-    fetch(`/chat/${user_id}/`, {
+    fetch(`${window.location.origin}/chat/${user_id}/`, {
         method: 'POST',
         headers: {
             'X-CSRFToken': csrftoken
@@ -173,3 +173,35 @@ function deleteChat(id){
 } 
 
 
+function onlineUser(){
+    const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        $.ajax({
+            url: `${window.location.origin + '/onlines/'}`,
+            type: 'POST',
+            beforeSend: function(xhr , settings){
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            data: {},
+            success: function(response) {
+                if (response.success) {
+                    console.log(response.dataOnline)
+                    element = document.querySelector('#onlineUsers');
+                    if(element){
+                        element.innerHTML='';
+                        data =response.dataOnline;
+                        data.forEach(user =>{
+                            element.innerHTML += ` 
+                                    <a href='${window.location.origin+'/otheruser/' + user.id }' class='position-relative' title='${user.first_name + ' ' + user.last_name}'>
+                                       <img src="${user.image}" alt="${user.first_name + ' ' + user.last_name}" class="rounded-circle" style="width:50px;height:50px;margin:2px;border:solid 3px #0ff19d">
+                                    </a>
+                            `;
+                        })
+
+                    }
+                }
+            },
+            error: function() {
+                console.log('error')
+            }
+        });
+} 

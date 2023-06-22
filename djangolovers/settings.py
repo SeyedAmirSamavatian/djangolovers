@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'contents',
     'otheruser',
     'chat',
+    'onlines',
 ]
 
 MIDDLEWARE = [

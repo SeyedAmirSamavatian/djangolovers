@@ -6,15 +6,17 @@
 {% block Left_Header %}  
 <div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
 	<div class="d-flex flex-row justify-content-center align-items-center">
-		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+		<a href="{% url 'edit_profile' %}" style="color: inherit;">
+			<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+		</a>
 	</div>
 	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
-		<ion-icon style='margin :10px; font-size:30px;color: blue;scale:1.2'name="home-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+		<a href="{% url 'home' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="home-outline"></ion-icon></a>
+		<a href="{% url 'new_post' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="reader-outline"></ion-icon></a>
+		<a href="#" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="person-add-outline"></ion-icon></a>
+		<a href="{% url 'privateMessage' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="mail-open-outline"></ion-icon></a>
+		<a href="{% url 'chat' user.id 0 %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="chatbubbles-outline"></ion-icon></a>
+		<a href="{% url 'all_post' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="infinite-outline"></ion-icon></a>
 	</div>
 </div>
 {% endblock Left_Header %}

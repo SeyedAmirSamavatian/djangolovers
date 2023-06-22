@@ -42,12 +42,12 @@
 	</div>
 	<div class="bodyPage container-fluid d-flex justify-content-center align-items-center">
 	  <div class="bodyPage row">
-	    <div id="divScroll" class="col-8 bg-danger d-flex justify-content-center align-items-center scroll_hidden" style="overflow-y: scroll;max-height: 80vh;">
+	    <div id="divScroll" class="col-8 d-flex justify-content-center align-items-center scroll_hidden" style="overflow-y: scroll;max-height: 80vh;">
 	    	{% block Left_Body %}
 	    		
 	    	{% endblock Left_Body %}
 		</div>
-	    <div class="col-4 bg-primary d-flex justify-content-center ">
+	    <div class="col-4 d-flex justify-content-center ">
 	    	{% block Right_Body %}
 	    		
 	    	{% endblock Right_Body %}
@@ -60,6 +60,13 @@
 	
 	<script src="{% static 'base.js' %}"></script>
 	<script src="{% static 'search.js' %}"></script>
+	<script>
+		onlineUser();
+		
+		setInterval(()=>{
+			onlineUser()
+		},5000) 
+	</script>
 </body>
 </html>
 

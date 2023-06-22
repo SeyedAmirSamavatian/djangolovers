@@ -8,15 +8,17 @@
 {% block Left_Header %}  
 <div class="d-flex flex-row justify-content-center align-items-center" style="left: 0px;">
 	<div class="d-flex flex-row justify-content-center align-items-center">
-		<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+		<a href="{% url 'edit_profile' %}" style="color: inherit;">
+			<img src="{{ user.profile.image.url }}" alt="{{user.first_name}}" class="rounded-circle" style="width:40px;height: 40px;margin-right: 10px ;">
+		</a>
 	</div>
 	<div class="d-flex flex-row justify-content-center align-items-center" style="width: 100%;">
-		<ion-icon style='margin :10px; font-size:30px;' name="home-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="reader-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="id-card-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="person-add-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="mail-open-outline"></ion-icon>
-		<ion-icon style='margin :10px; font-size:30px;' name="infinite-outline"></ion-icon>
+		<a href="{% url 'home' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="home-outline"></ion-icon></a>
+		<a href="{% url 'new_post' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="reader-outline"></ion-icon></a>
+		<a href="#" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="person-add-outline"></ion-icon></a>
+		<a href="{% url 'privateMessage' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;color: blue;scale:1.2' name="mail-open-outline"></ion-icon></a>
+		<a href="{% url 'chat' user.id 0 %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="chatbubbles-outline"></ion-icon></a>
+		<a href="{% url 'all_post' %}" style="color: inherit;"><ion-icon style='margin :10px; font-size:25px;' name="infinite-outline"></ion-icon></a>
 	</div>
 </div>
 {% endblock Left_Header %}
@@ -69,15 +71,6 @@
 				  	{% endif %}
 			  	{% endfor %}
 			  </div>
-		        <div class="d-flex flex-row bg-primary" style="width:40%; padding:6px; position: fixed; bottom:2vh; left:20%;right:30% ;z-index: 2; border-radius:5px">
-		            <form id="sendChatText" method="POST" class="d-flex flex-row" dir="rtl" style="width: 100%;">
-		            	{% csrf_token %}
-		                <span onclick="send_chat()" class="btn btn-primary">Send</span>
-		                <input id="sendChatInput" class="form-control" type="text" name="chatText">
-		                <input id="sendChatsender_id" class="form-control" type="hidden" name="sender_id" value="{{sender_id}}">
-						<input id="sendChatrecipient_id" class="form-control" type="hidden" name="recipient_id" value="{{recipient_id}}">
-		            </form>
-		        </div>
 			</div>
 		</div>
 	</div>
@@ -96,8 +89,8 @@
 				  		 <li class="list-group-item d-flex justify-content-between align-items-center text-align-center">
 						    <img class="rounded-circle" src="{{ userChat.profile.image.url }}" alt="" style="width:40px;height: 40px;">
 						    {{ userChat.first_name }}
-						    <span class="badge bg-primary rounded-pill">14</span>
-						  </li>
+						    <a href="{% url 'otheruser' userChat.id %}"><span class="badge bg-primary rounded-pill"> پاسخ </span></a>
+						 </li>
 						 </a>
 				  		{% endfor %}
 					</ul>
